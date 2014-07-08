@@ -22,28 +22,28 @@ cmd="$2"
 mininterval="$3"
 
 cleanup() {
-  rm -f /tmp/$jobname".running"
-  rm -f /tmp/$jobname".scheduled"
+  rm -f "/tmp/$jobname.running"
+  rm -f "/tmp/$jobname.scheduled"
 }
 
 trap cleanup SIGINT SIGTERM
 
 runcmd() {
-  touch /tmp/$jobname".running"
+  touch "/tmp/$jobname.running"
   eval "$cmd"
   sleep $mininterval
-  rm /tmp/$jobname".running"
-  if [[ -f /tmp/$jobname".scheduled" ]]; then
-    rm /tmp/$jobname".scheduled"
+  rm -f "/tmp/$jobname.running"
+  if [[ -f "/tmp/$jobname.scheduled" ]]; then
+    rm -f "/tmp/$jobname.scheduled"
     runcmd& 
   fi  
 }
 
-if [[ -f /tmp/$jobname".scheduled" ]]; then
+if [[ -f "/tmp/$jobname.scheduled" ]]; then
   echo "Job already scheduled."
-elif [[ -f /tmp/$jobname".running" ]]; then
+elif [[ -f "/tmp/$jobname.running" ]]; then
   echo "Job currently running, scheduling for when finished."
-  touch /tmp/$jobname".scheduled"
+  touch -f "/tmp/$jobname.scheduled"
 else
   echo "Running command immediately."
   runcmd&

@@ -6,15 +6,15 @@ usage() {
   echo "sched <jobname> <command> <minimum interval>" 
 }
 
+if [[ "$1" == "--help" ]]; then
+  usage
+  exit
+fi
+
 if [ "$#" -ne 3 ]; then
   echo "Wrong number of arguments."
   usage
   exit 1
-fi
-
-if [[ "$1" == "--help" ]]; then
-  usage
-  exit
 fi
 
 jobname="$1"
@@ -22,8 +22,8 @@ cmd="$2"
 mininterval="$3"
 
 cleanup() {
-  rm /tmp/$jobname".running" &>/dev/null
-  rm /tmp/$jobname".scheduled" &>/dev/null
+  rm -f /tmp/$jobname".running"
+  rm -f /tmp/$jobname".scheduled"
 }
 
 trap cleanup SIGINT SIGTERM

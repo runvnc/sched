@@ -1,0 +1,51 @@
+#!/bin/bash
+
+usage() {
+  echo "Usage:"
+  echo "Run a command, or schedule it if already running, with a minimum interval between runs."
+  echo "sched <jobname> <command> <minimum interval>" 
+}
+
+if [ "$#" -ne 3 ]; then
+  echo "Wrong number of arguments."
+  usage
+  exit 1
+fi
+
+if [[ "$1" == "--help" ]]; then
+  usage
+  exit
+fi
+
+jobname="$1"
+cmd="$2"
+mininterval="$3"
+
+cleanup() {
+  rm /tmp/$jobname".running" &>/dev/null
+  rm /tmp/$jobname".scheduled" &>/dev/null
+}
+
+trap cleanup SIGINT SIGTERM
+
+runcmd() {
+  touch /tmp/$jobname".running"
+  eval "$cmd"
+  sleep $mininterval
+  rm /tmp/$jobname".running"
+  if [[ -f /tmp/$jobname".scheduled" ]]; then
+    rm /tmp/$jobname".scheduled"
+    runcmd& 
+  fi  
+}
+
+if [[ -f /tmp/$jobname".scheduled" ]]; then
+  echo "Job already scheduled."
+elif [[ -f /tmp/$jobname".running" ]]; then
+  echo "Job currently running, scheduling for when finished."
+  touch /tmp/$jobname".scheduled"
+else
+  echo "Running command immediately."
+  runcmd&
+fi
+

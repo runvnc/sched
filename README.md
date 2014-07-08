@@ -5,6 +5,6 @@ Run a command, or schedule it if already running, with a minimum interval betwee
 
 Usage:
 
-```sh
+```
 sched <jobname> <command> <minimum interval>
 ```

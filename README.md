@@ -9,13 +9,12 @@ Usage:
 sched <jobname> <command> <minimum interval>
 ```
 
-Explanation
-===========
+### Explanation
 
 The current use case is to update the database for nsd after adding/changing DNS records. So I could have several changes come in within a short time frame, in which case I don't want or need to do the update many times, I just need to make sure the db update runs again after the last change.
 
-Why not Just Use the Watch Command?
-===================================
+### Why not Just Use the Watch Command?
+
 
 The watch command is useful for monitoring the output of a command that you need to run repeatedly every n seconds.
 

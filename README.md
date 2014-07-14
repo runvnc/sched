@@ -32,7 +32,7 @@ I also do not need to monitor the output or know how I would handle that output 
 
 Please read the previous section, that actually answers these questions also.  **The first thing I did was spend quite a fair amount of time trying to achieve this with 'at'**.
 
-In case that is not enough explanation, here is some more information.  If you carefully read and understand what I am trying to do and can thinking of a simple way to do it with the 'at' or 'cron' or another command, please let me know.
+In case that is not enough explanation, here is some more information.
 
 My script (actually scripts) listens on a port over the VPN, updates the nsd.conf and zone file, and then needs to call nsdc rebuild. I could just do that -- put nsdc rebuild at the bottom of my script.
 
